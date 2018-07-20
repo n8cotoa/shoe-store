@@ -36,22 +36,40 @@ end
 
 post '/stores/:id/edit' do
   @store = Store.find(params.fetch(:id))
+  new_store_name = params.fetch("new_store_name")
+  @store.update(:name => new_store_name)
   @brands = Brand.all
   erb :store_edit
 end
 
-post '/stores/:id/brands/add' do
+patch '/stores/:id/edit' do
   @store = Store.find(params.fetch(:id))
   brand_ids = params.fetch("brand_ids")
   brand_ids.each do |brand_id|
     brand = Brand.find(brand_id.to_i)
-    @store.brands.push(brand)
+    @store.brands.destroy(brand)
   end
-  redirect back
+  @brands = Brand.all
+  erb :store_edit
 end
+
 
 delete '/stores/:id/edit' do
   @store = Store.find(params.fetch(:id))
   @store.destroy
   redirect '/'
+end
+
+post '/stores/:id/brands/add' do
+  @store = Store.find(params.fetch(:id))
+  if params.key?('brand_ids')
+    brand_ids = params.fetch("brand_ids")
+    brand_ids.each do |brand_id|
+      brand = Brand.find(brand_id.to_i)
+      @store.brands.push(brand)
+    end
+    redirect back
+  else
+    redirect back
+  end
 end

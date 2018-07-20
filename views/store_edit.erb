@@ -19,7 +19,7 @@
 <div class="row">
   <div class="col-md-6">
     <% if @store.brands.any? %>
-    <h3>Remove brands to this store:</h3>
+    <h3>Remove brands from this store:</h3>
       <form action="/stores/<%= @store.id %>/edit" method="post">
         <input type="hidden" name="_method" value="patch">
         <% @store.brands.each do |brand| %>
@@ -40,11 +40,14 @@
     <h3>Add brands to this store:</h3>
       <form action="/stores/<%= @store.id %>/brands/add" method="post">
         <% @brands.each do |brand| %>
-          <div class="checkbox">
-            <label>
-              <input type="checkbox" name="brand_ids[]" value="<%= brand.id %>"><%= brand.name %>
-            </label>
-          </div>
+          <% if @store.brands.include?(brand) %>
+          <% else %>
+            <div class="checkbox">
+              <label>
+                <input type="checkbox" name="brand_ids[]" value="<%= brand.id %>"><%= brand.name %>
+              </label>
+            </div>
+          <% end %>
         <% end %>
         <button type="submit" class="btn btn-success">Add Brands</button>
       </form>
@@ -54,3 +57,6 @@
     <% end %>
   </div>
 </div>
+
+<a href="/stores/<%= @store.id %>"><span class="btn btn-primary"><%= @store.name %> Page</span></a>
+<a href="/"><span class="btn btn-primary">Home Page</span></a>

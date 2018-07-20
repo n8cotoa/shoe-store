@@ -27,3 +27,31 @@ get '/stores/:id' do
   @store = Store.find(params.fetch(:id))
   erb(:store)
 end
+
+get '/stores/:id/edit' do
+  @store = Store.find(params.fetch(:id))
+  @brands = Brand.all
+  erb :store_edit
+end
+
+post '/stores/:id/edit' do
+  @store = Store.find(params.fetch(:id))
+  @brands = Brand.all
+  erb :store_edit
+end
+
+post '/stores/:id/brands/add' do
+  @store = Store.find(params.fetch(:id))
+  brand_ids = params.fetch("brand_ids")
+  brand_ids.each do |brand_id|
+    brand = Brand.find(brand_id.to_i)
+    @store.brands.push(brand)
+  end
+  redirect back
+end
+
+delete '/stores/:id/edit' do
+  @store = Store.find(params.fetch(:id))
+  @store.destroy
+  redirect '/'
+end

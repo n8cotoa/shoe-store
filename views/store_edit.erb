@@ -1,0 +1,56 @@
+<div class="row">
+  <div class="col-md-10">
+    <h1>Edit <%= @store.name %></h1>
+  </div>
+  <div class="col-md-2">
+    <form action="/stores/<%= @store.id %>/edit" method="post">
+      <input type="hidden" name="_method" value="delete">
+      <button type="submit" class="btn btn-danger">Delete</button>
+    </form>
+  </div>
+</div>
+<form action="/stores/<%= @store.id %>/edit" method="post">
+  <div class="form-group">
+    <label for="new_store_name">Update Store Name:</label>
+    <input id="new_store_name" type="text" name="new_store_name" class="form-control">
+  </div>
+  <button type="submit" class="btn btn-success">Update</button>
+</form>
+<div class="row">
+  <div class="col-md-6">
+    <% if @store.brands.any? %>
+    <h3>Remove brands to this store:</h3>
+      <form action="/stores/<%= @store.id %>/edit" method="post">
+        <input type="hidden" name="_method" value="patch">
+        <% @store.brands.each do |brand| %>
+          <div class="checkbox">
+            <label>
+              <input type="checkbox" name="brand_ids[]" value="<%= brand.id %>"><%= brand.name %>
+            </label>
+          </div>
+        <% end %>
+        <button type="submit"class="btn btn-danger">Remove Brands</button>
+      </form>
+    <% else %>
+    <h3>There are currently no brands assigned to this store.</h3>
+    <% end %>
+  </div>
+  <div class="col-md-6">
+    <% if @brands.any? %>
+    <h3>Add brands to this store:</h3>
+      <form action="/stores/<%= @store.id %>/brands/add" method="post">
+        <% @brands.each do |brand| %>
+          <div class="checkbox">
+            <label>
+              <input type="checkbox" name="brand_ids[]" value="<%= brand.id %>"><%= brand.name %>
+            </label>
+          </div>
+        <% end %>
+        <button type="submit" class="btn btn-success">Add Brands</button>
+      </form>
+    <% else %>
+    <h3>There are currently no brands in the database.</h3>
+    <a href="/"><span class="btn btn-primary">Go Here To Add One</span></a>
+    <% end %>
+  </div>
+</div>

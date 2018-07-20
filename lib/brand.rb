@@ -17,6 +17,6 @@ class Brand < ActiveRecord::Base
   end
 
   def to_currency
-    self.price = sprintf('%.2f' % price)
+    self.price = sprintf('%.2f' % price).to_f
   end
 end

@@ -20,4 +20,5 @@ RSpec.configure do |config|
       ingredient.destroy()
     end
   end
+  config.include Capybara::DSL
 end

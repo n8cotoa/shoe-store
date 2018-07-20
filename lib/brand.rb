@@ -3,13 +3,8 @@ class Brand < ActiveRecord::Base
 
   validates :name, presence: true
   validates :price, presence: true
+  validates :price, numericality: true
   validates :name, uniqueness: true
   validates :name, length: { maximum: 100 }
 
-#   before_save :titlecase
-#
-# private
-#   def titlecase
-#     self.name = name.titleize
-#   end
 end

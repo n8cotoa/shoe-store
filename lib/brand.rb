@@ -3,4 +3,5 @@ class Brand < ActiveRecord::Base
 
   validates :name, presence: true
   validates :price, presence: true
+  validates :name, uniqueness: true
 end
